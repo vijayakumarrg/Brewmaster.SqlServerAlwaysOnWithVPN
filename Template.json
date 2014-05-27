@@ -214,17 +214,14 @@
                     "ad-dns1",
 		    "ad-dns2"
                 ],
-                "VPNClientAddressSpaces": [
                 {% if PointToSiteVPNClientAddressSpaces -%}
                 {% assign p2sVPNsplit = PointToSiteVPNClientAddressSpaces | split: ',' -%}
+                "VPNClientAddressSpaces": [
                     {% for item in p2sVPNsplit -%}
-                        "{{item}}"
-                    {% if !forloop.last -%}
-                    ,
-                    {% endif -%}
+                        "{{ item }}"{% if !forloop.last -%},{% endif -%}
                     {% endfor -%}
-                {% endif -%}
                 ]
+                {% endif -%}
             }
         ]
     },
