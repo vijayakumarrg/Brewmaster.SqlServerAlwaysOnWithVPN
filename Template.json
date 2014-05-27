@@ -187,7 +187,9 @@
                     "ad-dns1",
 		    "ad-dns2"
                 ],
-                "VPNClientAddressSpaces": []
+                "VPNClientAddressSpaces": [
+                	{% if user %}
+                ]
             }
         ]
     },
