@@ -1,6 +1,6 @@
 {
-    "Name": "SQLServerAlwaysOn",
-    "Description": "Creates SQL Server 2014 AlwaysOn deployment.",
+    "Name": "SQLServerAlwaysOnWithVPN",
+    "Description": "Creates SQL Server 2014 AlwaysOn deployment with VPN",
     "Version": "0.1.0",
     "Parameters": [
         {
@@ -176,8 +176,8 @@
                 "IPAddress": "10.0.0.5"
             }
         ],
+        {% if VPNGatewayAddress %}
         "LocalSites": [
-	    {% if VPNGatewayAddress %}
             {
                 "Name": "onprem-network",
                 "VPNGatewayAddress": "{{VPNGatewayAddress}}",
@@ -187,8 +187,8 @@
                 ]
                 {% endif %}
             }     
-            {% endif %}
         ],
+        {% endif %}
         "VirtualSites": [
             {
                 "Name": "{{VnetName}}",
@@ -214,8 +214,8 @@
                     "ad-dns1",
 		    "ad-dns2"
                 ],
+                {% if PointToSiteVPNClientAddressSpaces %}
                 "VPNClientAddressSpaces": [
-                    {% if PointToSiteVPNClientAddressSpaces %}
                     {
                     	{% assign p2sVPNsplit = PointToSiteVPNClientAddressSpaces | split: ',' -%}
                     	{% for item in p2sVPNsplit %}
@@ -223,8 +223,8 @@
                         "AddressPrefix": "{{item}}"
                         {% endfor %}
                     }
-                    {% endif %}
                 ]
+                {% endif %}
             }
         ]
     },
