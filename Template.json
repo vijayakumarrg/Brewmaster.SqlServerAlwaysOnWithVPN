@@ -177,11 +177,15 @@
                     {
                         "Name": "sql-subnet",
                         "AddressPrefix": "10.20.2.0/24"
+                    },
+                    {
+                        "Name": "app-subnet",
+                        "AddressPrefix": "10.30.3.0/24"
                     }
                 ],
                 "DnsServers": [
                     "ad-dns1",
-					"ad-dns2"
+		    "ad-dns2"
                 ],
                 "VPNClientAddressSpaces": []
             }
