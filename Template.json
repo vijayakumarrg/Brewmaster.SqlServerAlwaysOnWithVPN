@@ -1,6 +1,6 @@
 {
-    "Name": "SQLServerAlwaysOnWithVPN",
-    "Description": "Creates SQL Server 2014 AlwaysOn deployment with VPN",
+    "Name": "SQLServerAlwaysOnWithSiteToSiteVPN",
+    "Description": "Creates SQL Server 2014 AlwaysOn deployment with a Site to Site VPN",
     "Version": "0.1.0",
     "Parameters": [
         {
@@ -21,7 +21,7 @@
             "Description": "Azure Virtual Network for setting up SQL Server Availability Group."
         },
         {
-            "Name": "VPNGatewayAddress",
+            "Name": "SiteToSiteVPNGatewayAddress",
             "Type": "String",
             "Description": "Site-to-site VPN Gateway address"
         },
@@ -29,11 +29,6 @@
             "Name": "SiteToSiteVPNAddressSpace",
             "Type": "String",
             "Description": "Site-to-site VPN subnet"
-        },
-        {
-            "Name": "PointToSiteVPNClientAddressSpaces",
-            "Type": "String",
-            "Description": "Comma separate list like 10.0.0.0/24,10.0.1.0,24"
         },
         {
             "Name": "DiskStore",
@@ -164,6 +159,7 @@
         }
 		{% assign fqdnSplit = FQDN | split: '.' -%}
 		{% assign Domain = fqdnSplit[0] -%}
+                {% assign addressSpacesSplit = SiteToSiteVPNAddressSpace | split: ',' -%}
     ],
     "Network": {
         "DnsServers": [
@@ -176,19 +172,17 @@
                 "IPAddress": "10.0.0.5"
             }
         ],
-        {% if VPNGatewayAddress -%}
         "LocalSites": [
             {
                 "Name": "onprem-network",
-                "VPNGatewayAddress": "{{VPNGatewayAddress}}",
-                {% if SiteToSiteVPNSubnet -%}
+                "VPNGatewayAddress": "{{SiteToSiteVPNGatewayAddress}}",
                 "AddressSpace": [
-                        "{{SiteToSiteVPNSubnet}}"
+                        {% for address in addressSpacesSplit -%}
+                        "{{address}}"{% if !forloop.last -%},{% endif -%}	
+                        {% endfor -%}
                 ]
-                {% endif -%}
             }     
         ],
-        {% endif -%}
         "VirtualSites": [
             {
                 "Name": "{{VnetName}}",
@@ -213,15 +207,7 @@
                 "DnsServers": [
                     "ad-dns1",
 		    "ad-dns2"
-                ],
-                {% if PointToSiteVPNClientAddressSpaces -%}
-                {% assign p2sVPNsplit = PointToSiteVPNClientAddressSpaces | split: ',' -%}
-                "VPNClientAddressSpaces": [
-                    {% for item in p2sVPNsplit -%}
-                        "{{ item }}"{% if !forloop.last -%},{% endif -%}
-                    {% endfor -%}
                 ]
-                {% endif -%}
             }
         ]
     },
