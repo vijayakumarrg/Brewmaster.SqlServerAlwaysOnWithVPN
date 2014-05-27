@@ -176,19 +176,19 @@
                 "IPAddress": "10.0.0.5"
             }
         ],
-        {% if VPNGatewayAddress %}
+        {% if VPNGatewayAddress -%}
         "LocalSites": [
             {
                 "Name": "onprem-network",
                 "VPNGatewayAddress": "{{VPNGatewayAddress}}",
-                {% if SiteToSiteVPNSubnet %}
+                {% if SiteToSiteVPNSubnet -%}
                 "AddressSpace": [
                         "{{SiteToSiteVPNSubnet}}"
                 ]
-                {% endif %}
+                {% endif -%}
             }     
         ],
-        {% endif %}
+        {% endif -%}
         "VirtualSites": [
             {
                 "Name": "{{VnetName}}",
@@ -207,24 +207,24 @@
                     },
                     {
                         "Name": "app-subnet",
-                        "AddressPrefix": "10.30.3.0/24"
+                        "AddressPrefix": "10.20.3.0/24"
                     }
                 ],
                 "DnsServers": [
                     "ad-dns1",
 		    "ad-dns2"
                 ],
-                {% if PointToSiteVPNClientAddressSpaces %}
+                {% if PointToSiteVPNClientAddressSpaces -%}
                 "VPNClientAddressSpaces": [
                     {
                     	{% assign p2sVPNsplit = PointToSiteVPNClientAddressSpaces | split: ',' -%}
-                    	{% for item in p2sVPNsplit %}
+                    	{% for item in p2sVPNsplit -%}
                         "Name": "onprem-subnet-{{forloop.index}}",
                         "AddressPrefix": "{{item}}"
-                        {% endfor %}
+                        {% endfor -%}
                     }
                 ]
-                {% endif %}
+                {% endif -%}
             }
         ]
     },
