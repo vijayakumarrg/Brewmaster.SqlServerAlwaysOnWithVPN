@@ -218,10 +218,7 @@
                 {% if PointToSiteVPNClientAddressSpaces -%}
                 {% assign p2sVPNsplit = PointToSiteVPNClientAddressSpaces | split: ',' -%}
                     {% for item in p2sVPNsplit -%}
-                    {
-                        "Name": "onprem-subnet-{{forloop.index}}",
-                        "AddressPrefix": "{{item}}"
-                    }
+                        "{{item}}"
                     {% if !forloop.last -%}
                     ,
                     {% endif -%}
