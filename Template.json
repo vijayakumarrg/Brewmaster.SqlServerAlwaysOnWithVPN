@@ -21,6 +21,21 @@
             "Description": "Azure Virtual Network for setting up SQL Server Availability Group."
         },
         {
+            "Name": "VPNGatewayAddress",
+            "Type": "String",
+            "Description": "Site-to-site VPN Gateway address"
+        },
+        {
+            "Name": "SiteToSiteVPNAddressSpace",
+            "Type": "String",
+            "Description": "Site-to-site VPN subnet"
+        },
+        {
+            "Name": "PointToSiteVPNClientAddressSpaces",
+            "Type": "String",
+            "Description": "Comma separate list like 10.0.0.0/24,10.0.1.0,24"
+        },
+        {
             "Name": "DiskStore",
             "Type": "String",
             "TypeHint": "AzureStorageName",
@@ -161,7 +176,19 @@
                 "IPAddress": "10.0.0.5"
             }
         ],
-        "LocalSites": [],
+        "LocalSites": [
+	    {% if VPNGatewayAddress %}
+            {
+                "Name": "onprem-network",
+                "VPNGatewayAddress": "{{VPNGatewayAddress}}",
+                {% if SiteToSiteVPNSubnet %}
+                "AddressSpace": [
+                        "{{SiteToSiteVPNSubnet}}"
+                ]
+                {% endif %}
+            }     
+            {% endif %}
+        ],
         "VirtualSites": [
             {
                 "Name": "{{VnetName}}",
@@ -188,7 +215,15 @@
 		    "ad-dns2"
                 ],
                 "VPNClientAddressSpaces": [
-                	{% if user %}
+                    {% if PointToSiteVPNClientAddressSpaces %}
+                    {
+                    	{% assign p2sVPNsplit = PointToSiteVPNClientAddressSpaces | split: ',' -%}
+                    	{% for item in p2sVPNsplit %}
+                        "Name": "onprem-subnet-{{forloop.index}}",
+                        "AddressPrefix": "{{item}}"
+                        {% endfor %}
+                    }
+                    {% endif %}
                 ]
             }
         ]
