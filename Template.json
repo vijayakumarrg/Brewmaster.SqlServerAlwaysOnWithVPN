@@ -214,17 +214,20 @@
                     "ad-dns1",
 		    "ad-dns2"
                 ],
-                {% if PointToSiteVPNClientAddressSpaces -%}
                 "VPNClientAddressSpaces": [
+                {% if PointToSiteVPNClientAddressSpaces -%}
+                {% assign p2sVPNsplit = PointToSiteVPNClientAddressSpaces | split: ',' -%}
+                    {% for item in p2sVPNsplit -%}
                     {
-                    	{% assign p2sVPNsplit = PointToSiteVPNClientAddressSpaces | split: ',' -%}
-                    	{% for item in p2sVPNsplit -%}
                         "Name": "onprem-subnet-{{forloop.index}}",
                         "AddressPrefix": "{{item}}"
-                        {% endfor -%}
                     }
-                ]
+                    {% if !forloop.last -%}
+                    ,
+                    {% endif -%}
+                    {% endfor -%}
                 {% endif -%}
+                ]
             }
         ]
     },
