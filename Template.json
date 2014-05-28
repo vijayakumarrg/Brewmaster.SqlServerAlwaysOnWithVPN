@@ -1,6 +1,6 @@
 {
     "Name": "SQLServerAlwaysOnWithVPN",
-    "Description": "Creates SQL Server 2014 AlwaysOn deployment in the 172.16.0.0/12 subnet range with a Site to Site and Point to Site VPN .",
+    "Description": "Creates SQL Server 2014 AlwaysOn deployment in the 172.16.0.0/16 subnet range with a Site to Site and Point to Site VPN .",
     "Version": "0.3.5",
     "Parameters": [
         {
@@ -21,19 +21,19 @@
             "Description": "Azure Virtual Network for setting up SQL Server Availability Group."
         },
         {
-            "Name": "SiteToSiteVPNGatewayAddress",
+            "Name": "PointToSiteVPNAddressSpace",
             "Type": "String",
-            "Description": "Site-to-site VPN Gateway address. Example: 41.23.234.21"
+            "Description": "Point-to-site VPN subnet(s). Example: 172.17.1.0/24,172.17.2.0/24 "
+        },
+        {
+            "Name": "SiteToSiteVPNIPAddress",
+            "Type": "String",
+            "Description": "Site-to-site VPN IP address. Example: 41.23.234.21"
         },
         {
             "Name": "SiteToSiteVPNAddressSpace",
             "Type": "String",
-            "Description": "Site-to-site VPN subnet(s). Example: 172.16.4.0/24,172.16.5.0/24 "
-        },
-        {
-            "Name": "PointToSiteVPNAddressSpace",
-            "Type": "String",
-            "Description": "Point-to-site VPN subnet(s). Example: 172.16.6.0/24,172.16.7.0/24 "
+            "Description": "Site-to-site VPN subnet(s). Example: 172.17.3.0/24,172.16.4.0/24 "
         },
         {
             "Name": "DiskStore",
@@ -181,7 +181,7 @@
         "LocalSites": [
             {
                 "Name": "{{VnetName}}-LocalNetwork",
-                "VPNGatewayAddress": "{{SiteToSiteVPNGatewayAddress}}",
+                "VPNGatewayAddress": "{{SiteToSiteVPNIPAddress}}",
                 "AddressSpace": [
                         {% for address in addressSpacesSplit -%}
                         "{{address}}"{% if !forloop.last -%},{% endif -%}	
@@ -194,7 +194,7 @@
                 "Name": "{{VnetName}}",
                 "AffinityGroup": "{{AffinityGroup}}",
                 "AddressSpace": [
-                    "172.16.0.0/12"
+                    "172.16.0.0/16"
                 ],
                 "Subnets": [
                     {
@@ -208,6 +208,10 @@
                     {
                         "Name": "app-subnet",
                         "AddressPrefix": "172.16.2.0/24"
+                    },
+                    {
+                        "Name": "Gateway",
+                        "AddressPrefix": "172.16.3.0/29"
                     }
                 ],
                 "DnsServers": [
