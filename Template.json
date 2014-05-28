@@ -164,11 +164,11 @@
     "Network": {
         "DnsServers": [
             {
-                "Name": "ad-dns1",
+                "Name": "{{VnetName}}-ad-dns1",
                 "IPAddress": "172.16.0.4"
             },
             {
-                "Name": "ad-dns2",
+                "Name": "{{VnetName}}-ad-dns2",
                 "IPAddress": "172.16.0.5"
             }
         ],
@@ -205,8 +205,8 @@
                     }
                 ],
                 "DnsServers": [
-                    "ad-dns1",
-		    "ad-dns2"
+                    "{{VnetName}}-ad-dns1",
+		    "{{VnetName}}-ad-dns2"
                 ]
             }
         ]
