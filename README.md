@@ -1,6 +1,13 @@
 ###Overview
 Using the latest available image for SQL Server 2014 (Enterprise) in the azure gallery, it will create a SQL Server AlwaysOn deployment and in the process setup Active Directory and Windows Failover Cluster.
 
+It also creates a Site-to-Site VPN and a Point-to-Site VPN.
+
+###Virtual Network
+- A Virtual Network will be created in the 172.16.0.0/12 subnet range (to avoid conflicts with the MSFT Corp network).
+- After the deployment is completed, you will need to create a Dynamic Gateway.
+- For the Point-to-Site VPN, you will also need to wait for the gateway to be created, then upload your certificate.
+
 ###Virtual Machines (VMs)
 1.Two VMs will be created for setting Active Directory and they will act as the primary and secondary DNS. 
 2.The number of SQL VMs is controlled by the input parameter 'NumberOfSQLNodes, but a minimum of two is needed for creating the availability group. The minimum recommended size for SQL VM is 'Large'.
