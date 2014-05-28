@@ -174,7 +174,7 @@
         ],
         "LocalSites": [
             {
-                "Name": "onprem-network",
+                "Name": "{{VnetName}}-LocalNetwork",
                 "VPNGatewayAddress": "{{SiteToSiteVPNGatewayAddress}}",
                 "AddressSpace": [
                         {% for address in addressSpacesSplit -%}
