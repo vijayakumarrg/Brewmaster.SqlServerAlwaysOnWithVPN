@@ -1,7 +1,7 @@
 {
     "Name": "SQLServerAlwaysOnWithSiteToSiteVPN",
-    "Description": "Creates SQL Server 2014 AlwaysOn deployment with a Site to Site VPN",
-    "Version": "0.1.0",
+    "Description": "Creates SQL Server 2014 AlwaysOn deployment with a Site to Site VPN in the 172.16.0.0/12 subnet range.",
+    "Version": "0.3.0",
     "Parameters": [
         {
             "Name": "Region",
@@ -23,12 +23,12 @@
         {
             "Name": "SiteToSiteVPNGatewayAddress",
             "Type": "String",
-            "Description": "Site-to-site VPN Gateway address"
+            "Description": "Site-to-site VPN Gateway address. Example: 41.23.234.21"
         },
         {
             "Name": "SiteToSiteVPNAddressSpace",
             "Type": "String",
-            "Description": "Site-to-site VPN subnet"
+            "Description": "Site-to-site VPN subnet(s). Example: 172.16.4.0/24,172.16.5.0/24 "
         },
         {
             "Name": "DiskStore",
@@ -165,11 +165,11 @@
         "DnsServers": [
             {
                 "Name": "ad-dns1",
-                "IPAddress": "10.0.0.4"
+                "IPAddress": "172.16.0.4"
             },
             {
                 "Name": "ad-dns2",
-                "IPAddress": "10.0.0.5"
+                "IPAddress": "172.16.0.5"
             }
         ],
         "LocalSites": [
@@ -188,20 +188,20 @@
                 "Name": "{{VnetName}}",
                 "AffinityGroup": "{{AffinityGroup}}",
                 "AddressSpace": [
-                    "10.0.0.0/8"
+                    "172.16.0.0/12"
                 ],
                 "Subnets": [
                     {
                         "Name": "ad-subnet",
-                        "AddressPrefix": "10.0.0.0/24"
+                        "AddressPrefix": "172.16.0.0/24"
                     },
                     {
                         "Name": "sql-subnet",
-                        "AddressPrefix": "10.20.2.0/24"
+                        "AddressPrefix": "172.16.1.0/24"
                     },
                     {
                         "Name": "app-subnet",
-                        "AddressPrefix": "10.20.3.0/24"
+                        "AddressPrefix": "172.16.2.0/24"
                     }
                 ],
                 "DnsServers": [
