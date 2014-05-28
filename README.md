@@ -8,14 +8,14 @@ It also creates a Site-to-Site VPN and a Point-to-Site VPN.
 - After the Virtual Network is created, you will need to go to the portal and create a Dynamic Gateway
 - For the Point-to-Site VPN, you will also need to wait for the gateway to be created, then upload your certificate.
 
-The following is the network setup
-Virual Network: 172.16.0.0/16
-ad-subnet: 172.16.0.0/24
-sql-subnet: 172.16.1.0/24
-app-subnet: 172/.16.2.0/24
-GatewaySubnet: 172.16.3.0/29
-Point-to-site VPN address space: 172.17.1.0/24
-Site-to-site VPN address space: 172.17.2.0/24
+####The following is the network setup
+> - Virual Network: 172.16.0.0/16
+> - ad-subnet: 172.16.0.0/24
+> - sql-subnet: 172.16.1.0/24
+> - app-subnet: 172/.16.2.0/24
+> - GatewaySubnet: 172.16.3.0/29
+> - Point-to-site VPN address space: 172.17.1.0/24
+> - Site-to-site VPN address space: 172.17.2.0/24
 
 ###Virtual Machines (VMs)
 1.Two VMs will be created for setting Active Directory and they will act as the primary and secondary DNS. 
