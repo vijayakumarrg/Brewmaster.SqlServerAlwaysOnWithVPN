@@ -1,7 +1,7 @@
 {
-    "Name": "SQLServerAlwaysOnWithSiteToSiteVPN",
-    "Description": "Creates SQL Server 2014 AlwaysOn deployment with a Site to Site VPN in the 172.16.0.0/12 subnet range.",
-    "Version": "0.3.0",
+    "Name": "SQLServerAlwaysOnWithVPN",
+    "Description": "Creates SQL Server 2014 AlwaysOn deployment in the 172.16.0.0/12 subnet range with a Site to Site and Point to Site VPN .",
+    "Version": "0.3.5",
     "Parameters": [
         {
             "Name": "Region",
@@ -29,6 +29,11 @@
             "Name": "SiteToSiteVPNAddressSpace",
             "Type": "String",
             "Description": "Site-to-site VPN subnet(s). Example: 172.16.4.0/24,172.16.5.0/24 "
+        },
+        {
+            "Name": "PointToSiteVPNAddressSpace",
+            "Type": "String",
+            "Description": "Point-to-site VPN subnet(s). Example: 172.16.6.0/24,172.16.7.0/24 "
         },
         {
             "Name": "DiskStore",
@@ -160,6 +165,7 @@
 		{% assign fqdnSplit = FQDN | split: '.' -%}
 		{% assign Domain = fqdnSplit[0] -%}
                 {% assign addressSpacesSplit = SiteToSiteVPNAddressSpace | split: ',' -%}
+                {% assign p2sAddressSpacesSplit = PointToSiteVPNAddressSpace | split: ',' -%}
     ],
     "Network": {
         "DnsServers": [
@@ -207,6 +213,11 @@
                 "DnsServers": [
                     "{{VnetName}}-ad-dns1",
 		    "{{VnetName}}-ad-dns2"
+                ],
+                "VPNClientAddressSpaces": [
+                        {% for address in p2sAddressSpacesSplit -%}
+                        "{{address}}"{% if !forloop.last -%},{% endif -%}	
+                        {% endfor -%}
                 ]
             }
         ]
