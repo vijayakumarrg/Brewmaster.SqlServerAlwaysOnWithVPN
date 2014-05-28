@@ -222,7 +222,8 @@
                         {% for address in p2sAddressSpacesSplit -%}
                         "{{address}}"{% if !forloop.last -%},{% endif -%}	
                         {% endfor -%}
-                ]
+                ],
+                "LocalSiteRefConnection": "{{VnetName}}-LocalNetwork"
             }
         ]
     },
