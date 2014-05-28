@@ -29,7 +29,10 @@ The deployment does not create any additional SQL Server logins other than enabl
 ####From Azure Cloud Service
 Create a one or more new subnets (for creating the Azure Cloud Service(s) that need access to the availability group) in the deployed Azure Virtual Network (specified by the deployment parameter <VnetName>). Use the connection string `Data Source=tcp:<AvailabilityGroupName>Listener,1433;Initial Catalog=<DatabaseName>;Uid=sa;Pwd=<SqlAdminPassword>;MultiSubnetFailover=True`
 
-####From On-Premise Applications
+####From On-Premise Applications via VPN
+Use the connection string `Data Source=tcp:<AvailabilityGroupName>Listener,1433;InitialCatalog=<DatabaseName>;Uid=sa;Pwd=<SqlAdminPassword>;MultiSubnetFailover=True`
+
+####From On-Premise Applications via Internet
 The deployment creates endpoints (TCP:1433 with load balancing) on the SQL VMs to enable access from on-premise applications. Use the connection string `Data Source=<SSAOCloudService>.cloudapp.net;Initial Catalog=<DatabaseName>;Uid=sa;Pwd=<SqlAdminPassword>;MultiSubnetFailover=True`
 
 ###Limitations
@@ -38,6 +41,7 @@ Following are the limitations of this template. Users can fork this repository a
 > - The template adds just a single data disk of 40 GB to the SQL VMs.
 > - The template only supports adding a single database (specified by the input parameter 'DatabaseName') to the availability group.
 > - The template does not support the scenario where Active Directory setup has already been performed in the specified Azure Virtual Network.
+> - The template creates the Virtual Network in the 172.16.0.0/16 range.
 
 ###References
 Please refer to the following links for more information on SQL Server Availability Groups.
