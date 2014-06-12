@@ -154,6 +154,14 @@
             "Maximum": 64
         },
         {
+            "Name": "AlternateIP",
+            "Type": "String",
+            "TypeHint": "string",
+            "Description": "Alternate IP.",
+            "Minimum": 1,
+            "Maximum": 64
+        },
+        {
             "Name": "SqlSvcAccountPassword",
             "Type": "String",
             "TypeHint": "password",
@@ -171,7 +179,7 @@
         "DnsServers": [
             {
                 "Name": "{{VnetName}}-ad-dns1",
-                "IPAddress": "172.16.0.4"
+                "IPAddress": "{{AlternateIP}}"
             },
             {
                 "Name": "{{VnetName}}-ad-dns2",
